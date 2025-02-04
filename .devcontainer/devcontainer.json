@@ -1,0 +1,10 @@
+{
+    "name": "Crypto Dashboard",
+    "dockerFile": "Dockerfile",
+    "appPort": [3000, 8080],
+    "runArgs": ["--env", "PORT=3000"],
+    "extensions": [
+      "ms-vscode.vscode-node-azure-pack"
+    ]
+  }
+  

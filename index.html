@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="CryptoDashboard">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body ng-controller="DashboardController">
+    <div class="container">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Statistics</a></li>
+                    <li><a href="#"><i class="fas fa-globe"></i> Market</a></li>
+                    <li><a href="#"><i class="fas fa-wallet"></i> Wallet</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <button id="sidebarToggle" class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Crypto Dashboard</h1>
+
+            <!-- Bank Dropdown -->
+            <select ng-model="selectedBank" ng-change="fetchData(selectedBank)">
+                <option value="icici">ICICI</option>
+                <option value="kotak">Kotak</option>
+                <option value="sbi">SBI</option>
+                <option value="all">All Banks</option>
+            </select>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h2>Your Balance</h2>
+                    <p class="metric-value">{{balance | currency}}</p>
+                </div>
+                <div class="metric-card">
+                    <h2>Total Transactions</h2>
+                    <p class="metric-value">{{transactions.length}}</p>
+                </div>
+                <div class="metric-card">
+                    <h2>Latest Transaction</h2>
+                    <p class="metric-value">{{latestTransaction.Amount | currency}}</p>
+                    <p class="metric-date">{{latestTransaction.TransactionDate | date:'medium'}}</p>
+                </div>
+            </div>
+
+            <!-- Graph -->
+            <div class="graph-container">
+                <h2>General Statistics</h2>
+                <canvas id="cryptoChart"></canvas>
+            </div>
+
+            <!-- Transactions Table -->
+            <div class="transactions-container">
+                <h2>Recent Transactions</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="transaction in transactions | limitTo:5">
+                            <td>{{transaction.TransactionID}}</td>
+                            <td>{{transaction.TransactionDate | date:'shortDate'}}</td>
+                            <td>{{transaction.TransactionType}}</td>
+                            <td ng-class="{'credit': transaction.TransactionType === 'Credit', 'debit': transaction.TransactionType === 'Debit'}">
+                                {{transaction.Amount | currency}}
+                            </td>
+                            <td><span class="status">{{transaction.Status}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
