@@ -6,89 +6,137 @@
     <title>Crypto Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
 </head>
-<body ng-controller="DashboardController">
-    <div class="container">
+<body ng-controller="DashboardController" class="bg-gray-100" ng-cloak>
+    <div class="flex h-screen bg-gray-100">
         <!-- Sidebar -->
-        <aside id="sidebar" class="sidebar">
+        <div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
             <nav>
-                <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="#"><i class="fas fa-chart-bar"></i> Statistics</a></li>
-                    <li><a href="#"><i class="fas fa-globe"></i> Market</a></li>
-                    <li><a href="#"><i class="fas fa-wallet"></i> Wallet</a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                </ul>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-chart-bar mr-2"></i>Statistics
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-globe mr-2"></i>Market
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-wallet mr-2"></i>Wallet
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-cog mr-2"></i>Settings
+                </a>
             </nav>
-        </aside>
+        </div>
 
         <!-- Main Content -->
-        <main id="main-content" class="main-content">
-            <button id="sidebarToggle" class="sidebar-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1>Crypto Dashboard</h1>
-
-            <!-- Bank Dropdown -->
-            <select ng-model="selectedBank" ng-change="fetchData(selectedBank)">
-                <option value="icici">ICICI</option>
-                <option value="kotak">Kotak</option>
-                <option value="sbi">SBI</option>
-                <option value="all">All Banks</option>
-            </select>
-
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <h2>Your Balance</h2>
-                    <p class="metric-value">{{balance | currency}}</p>
+        <div class="flex-1 p-10 text-2xl font-bold overflow-y-auto">
+            <h1 class="text-4xl font-bold mb-8">Crypto Dashboard</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">Your Balance</h2>
+                    <p class="text-3xl font-bold">{{balance | currency}}</p>
                 </div>
-                <div class="metric-card">
-                    <h2>Total Transactions</h2>
-                    <p class="metric-value">{{transactions.length}}</p>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">Total Transactions</h2>
+                    <p class="text-3xl font-bold">{{transactions.length}}</p>
                 </div>
-                <div class="metric-card">
-                    <h2>Latest Transaction</h2>
-                    <p class="metric-value">{{latestTransaction.Amount | currency}}</p>
-                    <p class="metric-date">{{latestTransaction.TransactionDate | date:'medium'}}</p>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">Latest Transaction</h2>
+                    <p class="text-3xl font-bold">{{latestTransaction.Amount | currency}}</p>
+                    <p class="text-sm text-gray-500">{{latestTransaction.TransactionDate | date:'medium'}}</p>
                 </div>
             </div>
 
             <!-- Graph -->
-            <div class="graph-container">
-                <h2>General Statistics</h2>
-                <canvas id="cryptoChart"></canvas>
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <h2 class="text-2xl font-semibold mb-4">General Statistics</h2>
+                <canvas id="cryptoChart" width="400" height="200"></canvas>
             </div>
 
             <!-- Transactions Table -->
-            <div class="transactions-container">
-                <h2>Recent Transactions</h2>
-                <table>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <h2 class="text-2xl font-semibold p-6 bg-gray-50">Recent Transactions</h2>
+                <table class="w-full">
                     <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Status</th>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">Transaction ID</th>
+                            <th class="py-3 px-6 text-left">Date</th>
+                            <th class="py-3 px-6 text-left">Type</th>
+                            <th class="py-3 px-6 text-right">Amount</th>
+                            <th class="py-3 px-6 text-left">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr ng-repeat="transaction in transactions | limitTo:5">
-                            <td>{{transaction.TransactionID}}</td>
-                            <td>{{transaction.TransactionDate | date:'shortDate'}}</td>
-                            <td>{{transaction.TransactionType}}</td>
-                            <td ng-class="{'credit': transaction.TransactionType === 'Credit', 'debit': transaction.TransactionType === 'Debit'}">
+                    <tbody class="text-gray-600 text-sm font-light">
+                        <tr ng-repeat="transaction in transactions | limitTo:5" class="border-b border-gray-200 hover:bg-gray-100">
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{transaction.TransactionID}}</td>
+                            <td class="py-3 px-6 text-left">{{transaction.TransactionDate | date:'shortDate'}}</td>
+                            <td class="py-3 px-6 text-left">{{transaction.TransactionType}}</td>
+                            <td class="py-3 px-6 text-right" ng-class="{'text-green-500': transaction.TransactionType === 'Credit', 'text-red-500': transaction.TransactionType === 'Debit'}">
                                 {{transaction.Amount | currency}}
                             </td>
-                            <td><span class="status">{{transaction.Status}}</span></td>
+                            <td class="py-3 px-6 text-left">
+                                <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{transaction.Status}}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </main>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        var app = angular.module('CryptoDashboard', []);
+
+        app.controller('DashboardController', function($scope, $http) {
+            $scope.transactions = [];
+            $scope.balance = 0;
+
+            // Fetch transactions
+            $http.get('http://localhost:3000/api/transactions').then(function(response) {
+                $scope.transactions = response.data;
+                $scope.latestTransaction = $scope.transactions[0];
+            });
+
+            // Fetch balance
+            $http.get('http://localhost:3000/api/balance').then(function(response) {
+                $scope.balance = response.data.balance;
+            });
+
+            // Fetch graph data and create chart
+            $http.get('http://localhost:3000/api/graph-data').then(function(response) {
+                var ctx = document.getElementById('cryptoChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: response.data.map(item => item.date),
+                        datasets: [{
+                            label: 'Value',
+                            data: response.data.map(item => item.value),
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
