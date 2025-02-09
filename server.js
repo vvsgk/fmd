@@ -1,69 +1,73 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const dbConfig = require('./config/database.config.js');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
 // Middleware
-app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB', err));
+mongoose.connect('mongodb+srv://vvsgk:Password@cluster0.6uolb.mongodb.net/bank', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
-// Define Transaction schema
+// Define Mongoose Schema
 const transactionSchema = new mongoose.Schema({
-  TransactionID: String,
-  TransactionDate: Date,
-  TransactionType: String,
-  Amount: Number,
-  Currency: String,
-  AccountID: String,
-  Source: String,
-  Destination: String,
-  Status: String,
-  ReferenceNumber: String,
-  Description: String,
-  Balance: Number
-});
+    TransactionID: String,
+    TransactionDate: Date,
+    TransactionType: String,
+    Amount: Number,
+    Currency: String,
+    AccountID: String,
+    Source: String,
+    Destination: String,
+    Status: String,
+    ReferenceNumber: String,
+    Description: String,
+    Balance: Number
+}, { collection: 'icici' });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
-// Routes
+// API to get all transactions
 app.get('/api/transactions', async (req, res) => {
-  const transactions = await Transaction.find();
-  res.json(transactions);
+    try {
+        const transactions = await Transaction.find().sort({ TransactionDate: -1 }).limit(10);
+        res.json(transactions);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
+// API to get balance (latest transaction balance)
 app.get('/api/balance', async (req, res) => {
-  const latestTransaction = await Transaction.findOne().sort({ TransactionDate: -1 });
-  res.json({ balance: latestTransaction ? latestTransaction.Balance : 0 });
+    try {
+        const latestTransaction = await Transaction.findOne().sort({ TransactionDate: -1 });
+        res.json({ balance: latestTransaction ? latestTransaction.Balance : 0 });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-// New route for graph data
+// API to get graph data
 app.get('/api/graph-data', async (req, res) => {
-  const mockData = [
-    { date: "Mar", value: 300 },
-    { date: "Apr", value: 350 },
-    { date: "May", value: 200 },
-    { date: "Jun", value: 400 },
-    { date: "Jul", value: 300 },
-    { date: "Aug", value: 200 },
-    { date: "Sep", value: 450 },
-    { date: "Oct", value: 500 },
-    { date: "Nov", value: 480 },
-    { date: "Dec", value: 400 },
-    { date: "Jan", value: 350 },
-    { date: "Feb", value: 400 },
-  ];
-  res.json(mockData);
+    try {
+        const graphData = await Transaction.find().sort({ TransactionDate: 1 }).limit(30);
+        const formattedData = graphData.map(txn => ({
+            date: txn.TransactionDate.toISOString().split('T')[0],
+            value: txn.Balance
+        }));
+        res.json(formattedData);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
