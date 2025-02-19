@@ -112,7 +112,7 @@ export function ExpandableModules() {
     <div className="container mx-auto p-8">
       <div className="mb-16">
         <div className="text-sm font-mono text-neutral-500 mb-2">001</div>
-        <h1 className="text-2xl font-mono text-neutral-800">CHAPTERS INDEX</h1>
+        <h1 className="text-2xl font-mono text-neutral-800">Investment Options</h1>
       </div>
 
       <div className="flex flex-col md:flex-row">
