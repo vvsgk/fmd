@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "export": "next export",
+    "deploy": "npm run build && npm run export && gh-pages -d out",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -52,6 +54,7 @@
     "@types/recharts": "^1.8.29",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "gh-pages": "^6.3.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
