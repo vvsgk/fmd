@@ -13,7 +13,6 @@ const modules = [
     number: "001",
     title: "SIP Calculator",
     description: "Calculate your investment returns with our advanced SIP planning tool.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/sipCal").then((mod) => mod.default)),
     position: { left: "0%", top: "0%" },
   },
@@ -22,7 +21,6 @@ const modules = [
     number: "002",
     title: "Precious Metals",
     description: "Track and invest in gold, silver, and other precious metals.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/pmInv").then((mod) => mod.PreciousMetalsDashboard)),
     position: { left: "25%", top: "10%" },
   },
@@ -31,7 +29,6 @@ const modules = [
     number: "003",
     title: "Property Investment",
     description: "Explore real estate opportunities and calculate returns.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/propertyInv").then((mod) => mod.PropertyInvestment)),
     position: { left: "50%", top: "0%" },
   },
@@ -40,7 +37,6 @@ const modules = [
     number: "004",
     title: "FD Calculator",
     description: "Calculate fixed deposit returns across different periods.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/fd").then((mod) => mod.default)),
     position: { left: "0%", top: "45%" },
   },
@@ -49,7 +45,6 @@ const modules = [
     number: "005",
     title: "RD Calculator",
     description: "Plan your recurring deposits and visualize growth.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/rd")),
     position: { left: "25%", top: "55%" },
   },
@@ -58,96 +53,8 @@ const modules = [
     number: "006",
     title: "NPS Calculator",
     description: "Estimate your retirement savings with NPS calculator.",
-    image: "/placeholder.svg?height=80&width=80",
     component: dynamic(() => import("../Tools/nps")),
     position: { left: "50%", top: "45%" },
-  },
-  {
-    id: "mf",
-    number: "007",
-    title: "Mutual Fund",
-    description: "Explore mutual fund options and calculate returns.",
-    image: "/placeholder.svg?height=80&width=80",
-    component: dynamic(() => import("../Tools/fd")),
-    position: { left: "0%", top: "90%" },
-  },
-  {
-    id: "st",
-    number: "008",
-    title: "Stock Market",
-    description: "Explore stock market options and calculate returns.",
-    image: "/placeholder.svg?height=80&width=80",
-    position: { left: "25%", top: "100%" },
-  },
-  {
-    id: "cr",
-    number: "009",
-    title: "Cryptocurrency 1",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "50%", top: "90%" },
-  },
-  {
-    id: "cr",
-    number: "010",
-    title: "Cryptocurrency 2",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "0%", top: "135%" },
-  },
-  {
-    id: "cr",
-    number: "011",
-    title: "Cryptocurrency 3",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "25%", top: "145%" },
-  },
-  {
-    id: "cr",
-    number: "012",
-    title: "Cryptocurrency 4",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "50%", top: "135%" },
-  },
-  {
-    id: "cr",
-    number: "013",
-    title: "Cryptocurrency 5",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "0%", top: "180%" },
-  },
-  {
-    id: "cr",
-    number: "014",
-    title: "Cryptocurrency 6",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "25%", top: "190%" },
-  },
-  {
-    id: "cr",
-    number: "015",
-    title: "Cryptocurrency 7",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "50%", top: "180%" },
-  },
-  {
-    id: "cr",
-    number: "016",
-    title: "Cryptocurrency 8",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "0%", top: "225%" },
-  },
-  {
-    id: "cr",
-    number: "017",
-    title: "Cryptocurrency 9",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "25%", top: "235%" },
-  },
-  {
-    id: "cr",
-    number: "018",
-    title: "Cryptocurrency 10",
-    description: "Explore cryptocurrency options and calculate returns.",
-    position: { left: "50%", top: "225%" },
   },
 ]
 
@@ -245,14 +152,6 @@ export function ExpandableModules() {
                       <div className="text-sm font-mono text-neutral-500">{module.number}</div>
                       <h2 className="font-mono uppercase text-lg tracking-wide">{module.title}</h2>
                       <p className="text-sm text-neutral-600 leading-relaxed">{module.description}</p>
-                      <div className="mt-4 h-20 relative">
-                        <Image
-                          src={module.image || "/placeholder.svg"}
-                          alt={module.title}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
                     </div>
                   </Card>
                 </div>
