@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   experimental: {
     serverActions: {
-      allowedOrigins: ["*"], // Allow all origins (or specify your domain)
+      allowedOrigins: ["humble-guacamole-v6vg55x46rj7hwg6q-3000.app.github.dev", "localhost:3000"],
     },
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
